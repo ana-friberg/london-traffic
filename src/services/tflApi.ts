@@ -136,13 +136,25 @@ export class TflApiService {
       // console.log("Raw data received from TfL API:", data);
       // console.log("Total items received:", data.length);
 
-      // Step 4: Filter and transform the data
+      // Step 4: Filter, transform, and sort the data by severity
       // Process the raw API data into clean, usable disruption objects
       const disruptions = data
         .filter(this.hasRequiredData) // Remove incomplete/invalid items
-        .map(this.toDisruption); // Transform to our standard format
+        .map(this.toDisruption)       // Transform to our standard format
+        .sort((a, b) => {             // Sort by severity priority
+          // Define severity order: Serious (highest priority) → Moderate → Minimal (lowest priority)
+          const severityOrder = { 
+            'Serious': 3,   // Highest priority - shows first
+            'Moderate': 2,  // Medium priority - shows second  
+            'Minimal': 1    // Lowest priority - shows last
+          };
+          
+          // Sort in descending order (highest priority first)
+          // This ensures Serious disruptions appear at the top of the list
+          return severityOrder[b.severity] - severityOrder[a.severity];
+        });
 
-      // Return the clean, validated disruption data
+      // Return the clean, validated, and sorted disruption data
       return disruptions;
     } catch (error) {
       // Comprehensive error handling for debugging and user experience

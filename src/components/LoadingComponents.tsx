@@ -121,15 +121,6 @@ export const ErrorMessage = ({ error, onRetry }: ErrorMessageProps) => {
               </div>
             </button>
           )}
-          
-          <button
-            onClick={() => window.location.reload()}
-            className="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium py-3 px-6 
-                     rounded-xl transition-all duration-200
-                     focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
-          >
-            {TEXT_CONSTANTS[27]}
-          </button>
         </div>
 
         {/* Help text */}
