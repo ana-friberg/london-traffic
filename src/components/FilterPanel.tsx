@@ -11,6 +11,7 @@ interface FilterPanelProps {
     minor: number;
     total: number;
   };
+  onShowAlert?: (type: 'error' | 'warning' | 'info' | 'success', title: string, message: string) => void;
 }
 
 /**
@@ -36,7 +37,8 @@ export const FilterPanel = ({
   filters,
   onFiltersChange,
   onClearAll,
-  disruptionCounts
+  disruptionCounts,
+  onShowAlert
 }: FilterPanelProps) => {
   /**
    * Handles severity filter changes (checkboxes)
@@ -46,6 +48,7 @@ export const FilterPanel = ({
    * 2. Adds or removes the severity based on checkbox state
    * 3. Calls parent's onFiltersChange with updated severities
    * 4. Parent re-filters disruptions and updates counts
+   * 5. Shows notification about filter result
    * 
    * @param severity - The severity level being toggled (e.g., "Severe", "Moderate")
    * @param checked - Whether the checkbox is now checked or unchecked
@@ -58,6 +61,19 @@ export const FilterPanel = ({
       newSeverities.delete(severity);
     }
     onFiltersChange({ severities: newSeverities });
+
+    // Show alert about filter change
+    if (onShowAlert) {
+      const count = severity === TEXT_CONSTANTS[7] ? disruptionCounts.severe :
+                   severity === TEXT_CONSTANTS[8] ? disruptionCounts.moderate :
+                   disruptionCounts.minor;
+      
+      if (checked) {
+        onShowAlert('info', 'Filter Added', `Now showing ${severity.toLowerCase()} disruptions (${count} found)`);
+      } else {
+        onShowAlert('info', 'Filter Removed', `Hidden ${severity.toLowerCase()} disruptions`);
+      }
+    }
   };
 
   /**
@@ -72,7 +88,25 @@ export const FilterPanel = ({
    * @param event - React change event from the search input
    */
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onFiltersChange({ searchQuery: event.target.value });
+    const searchValue = event.target.value;
+    onFiltersChange({ searchQuery: searchValue });
+
+    // Show search feedback for longer queries
+    if (onShowAlert && searchValue.length >= 3) {
+      setTimeout(() => {
+        onShowAlert('info', 'Search Applied', `Searching for "${searchValue}"`);
+      }, 500); // Small delay to avoid spam during typing
+    }
+  };
+
+  /**
+   * Enhanced clear all function with notification
+   */
+  const handleClearAllWithAlert = () => {
+    onClearAll();
+    if (onShowAlert) {
+      onShowAlert('success', 'Filters Cleared', `Showing all ${disruptionCounts.total} disruptions`);
+    }
   };
 
   /**
@@ -131,7 +165,7 @@ export const FilterPanel = ({
         
         {/* Clear all filters button - resets both search and severity filters */}
         <button
-          onClick={onClearAll}
+          onClick={handleClearAllWithAlert}
           className="text-sm font-medium text-slate-600 hover:text-slate-900 
                    bg-white hover:bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200
                    transition-all duration-200 hover:shadow-sm"

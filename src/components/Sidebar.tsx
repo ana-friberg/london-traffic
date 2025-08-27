@@ -18,6 +18,7 @@ interface SidebarProps {
     minor: number;
     total: number;
   };
+  onShowAlert?: (type: 'error' | 'warning' | 'info' | 'success', title: string, message: string) => void;
 }
 
 /**
@@ -40,7 +41,8 @@ export const Sidebar = ({
   disruptions,
   selectedDisruption,
   onDisruptionSelect,
-  disruptionCounts
+  disruptionCounts,
+  onShowAlert
 }: SidebarProps) => {
   return (
     <aside className={`
@@ -67,6 +69,7 @@ export const Sidebar = ({
           onFiltersChange={onFiltersChange}
           onClearAll={onClearAll}
           disruptionCounts={disruptionCounts}
+          onShowAlert={onShowAlert}
         />
         
         {/* Disruption list section - Displays filtered disruptions and handles selection */}
@@ -74,6 +77,7 @@ export const Sidebar = ({
           disruptions={disruptions}
           onDisruptionSelect={onDisruptionSelect}
           selectedDisruption={selectedDisruption}
+          onShowAlert={onShowAlert}
         />
       </div>
     </aside>

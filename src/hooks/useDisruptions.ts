@@ -3,6 +3,7 @@ import type { Disruption, FilterState, LoadingState } from '../types/disruption'
 import { TflApiService } from '../services/tflApi';
 import { TEXT_CONSTANTS } from '../constants/text';
 import { TIMING_CONSTANTS } from '../constants/ui';
+import { useErrorHandler } from './useErrorHandler';
 
 /**
  * Pure function to filter disruptions based on user criteria
@@ -62,10 +63,15 @@ const calculateCounts = (disruptions: Disruption[]) => ({
  * - Provides filtering capabilities for users
  * - Tracks when data was last updated
  * - Handles manual refresh requests
+ * - Supports alert notifications for data events
  * 
+ * @param onShowAlert - Optional callback for showing alerts to users
  * @returns Object containing disruption data, loading states, and control functions
  */
-export const useDisruptions = () => {
+export const useDisruptions = (onShowAlert?: (type: 'error' | 'warning' | 'info' | 'success', title: string, message: string) => void) => {
+  // Initialize error handler with alert callback  
+  const errorHandler = onShowAlert ? useErrorHandler({ onShowAlert }) : null;
+  
   // Core data state - stores all disruptions fetched from API
   const [disruptions, setDisruptions] = useState<Disruption[]>([]);
   
@@ -138,6 +144,15 @@ export const useDisruptions = () => {
         // Log new severe disruptions for user awareness
         if (newSevereCount > 0) {
           console.log(`${newSevereCount} new severe disruption(s) detected`);
+          
+          // Show alert for new severe disruptions
+          if (onShowAlert) {
+            onShowAlert(
+              'warning',
+              'New Severe Disruptions',
+              `${newSevereCount} new severe disruption${newSevereCount > 1 ? 's' : ''} detected in London`
+            );
+          }
         }
       }
       
@@ -147,12 +162,33 @@ export const useDisruptions = () => {
       setLoadingState({ isLoading: false, error: null });    // Clear loading state
       isInitialLoad.current = false;                          // Mark initial load as complete
       
+      // Show success alert for initial load or successful refresh after error
+      if (onShowAlert && (isInitialLoad.current || isManualRefresh)) {
+        onShowAlert(
+          'success',
+          'Data Updated',
+          `Successfully loaded ${data.length} traffic disruptions`
+        );
+      }
+      
     } catch (error) {
-      // Handle any errors during fetch process
+      // Handle any errors during fetch process using centralized error handler
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
       setLoadingState({ 
         isLoading: false, 
-        error: error instanceof Error ? error.message : 'An unknown error occurred'
+        error: errorMessage
       });
+      
+      // Use specialized error handler if available, fallback to basic alert
+      if (errorHandler && error instanceof Error) {
+        errorHandler.handleApiError(error, 'traffic data loading');
+      } else if (onShowAlert) {
+        onShowAlert(
+          'error',
+          'Data Loading Failed',
+          `Unable to fetch traffic data: ${errorMessage}`
+        );
+      }
     }
   }, [disruptions]); // Depend on current disruptions for new severe disruption detection
 

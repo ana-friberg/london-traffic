@@ -7,12 +7,14 @@ interface DisruptionListProps {
   disruptions: Disruption[];
   onDisruptionSelect: (disruption: Disruption) => void;
   selectedDisruption: Disruption | null;
+  onShowAlert?: (type: 'error' | 'warning' | 'info' | 'success', title: string, message: string) => void;
 }
 
 export const DisruptionList = ({
   disruptions,
   onDisruptionSelect,
-  selectedDisruption
+  selectedDisruption,
+  onShowAlert
 }: DisruptionListProps) => {
   const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set());
 
@@ -25,6 +27,20 @@ export const DisruptionList = ({
       newExpanded.add(disruptionId);
     }
     setExpandedCards(newExpanded);
+  };
+
+  // Enhanced disruption selection with alert
+  const handleDisruptionSelect = (disruption: Disruption) => {
+    onDisruptionSelect(disruption);
+    
+    // Show selection feedback alert
+    if (onShowAlert) {
+      onShowAlert(
+        'info', 
+        'Disruption Selected', 
+        `Viewing ${disruption.severity.toLowerCase()} disruption on ${disruption.location}`
+      );
+    }
   };
 
   if (disruptions.length === 0) {
@@ -70,7 +86,7 @@ export const DisruptionList = ({
                     : 'hover:bg-blue-50 border-l-transparent hover:border-l-blue-300'
                   }
                 `}
-                onClick={() => onDisruptionSelect(disruption)}
+                onClick={() => handleDisruptionSelect(disruption)}
               >
                 <div className="flex items-start justify-between mb-2">
                   <h3 className="text-sm font-semibold text-gray-900 leading-5 flex-1 pr-2">
