@@ -5,6 +5,7 @@ import { DisruptionList } from './components/DisruptionList';
 import { LoadingSpinner, ErrorMessage } from './components/LoadingComponents';
 import { useDisruptions } from './hooks/useDisruptions';
 import type { Disruption } from './types/disruption';
+import logoTraffic from './assets/logo_traffic.svg';
 
 function App() {
   const { disruptions, loadingState, filters, updateFilters, refreshData, lastUpdated } = useDisruptions();
@@ -53,7 +54,7 @@ function App() {
       <header className="bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg z-10">
         <div className="px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center">
               <button
                 onClick={toggleSidebar}
                 className="lg:hidden p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors"
@@ -63,9 +64,16 @@ function App() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               </button>
-              <div>
-                <h1 className="text-xl sm:text-2xl font-bold">London Traffic Live</h1>
-                <p className="text-blue-100 text-sm hidden sm:block">Real-time traffic disruptions across London</p>
+              <div className="flex items-center space-x-3">
+                <img 
+                  src={logoTraffic} 
+                  alt="London Traffic Live" 
+                  className="w-8 h-8 sm:w-10 sm:h-10"
+                />
+                <div>
+                  <h1 className="text-xl sm:text-2xl font-bold">London Traffic Live</h1>
+                  <p className="text-blue-100 text-sm hidden sm:block">Real-time traffic disruptions across London</p>
+                </div>
               </div>
             </div>
             
