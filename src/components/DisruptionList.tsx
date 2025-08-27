@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import type { Disruption } from '../types/disruption';
 import { getSeverityConfig, formatStatus, formatCoordinates } from '../utils/disruptionUtils';
+import { TEXT_CONSTANTS } from '../constants/text';
 
 interface DisruptionListProps {
   disruptions: Disruption[];
@@ -35,8 +36,8 @@ export const DisruptionList: React.FC<DisruptionListProps> = ({
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
-          <h3 className="text-lg font-medium text-gray-900 mb-2">No Disruptions Found</h3>
-          <p className="text-gray-500">No traffic disruptions match your current filters.</p>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">{TEXT_CONSTANTS[15]}</h3>
+          <p className="text-gray-500">{TEXT_CONSTANTS[16]}</p>
         </div>
       </div>
     );
@@ -47,7 +48,7 @@ export const DisruptionList: React.FC<DisruptionListProps> = ({
       {/* Fixed header */}
       <div className="px-4 py-3 bg-gray-50 border-b border-gray-200 flex-shrink-0">
         <h2 className="text-lg font-semibold text-gray-900">
-          Traffic Disruptions ({disruptions.length})
+          {TEXT_CONSTANTS[17]} ({disruptions.length})
         </h2>
       </div>
       
@@ -87,7 +88,7 @@ export const DisruptionList: React.FC<DisruptionListProps> = ({
                     <button
                       onClick={(e) => toggleCardExpansion(disruption.id, e)}
                       className="p-1 rounded-full hover:bg-gray-200 transition-colors duration-200"
-                      aria-label={isExpanded ? "Collapse details" : "Expand details"}
+                      aria-label={isExpanded ? TEXT_CONSTANTS[18] : TEXT_CONSTANTS[19]}
                     >
                       <svg 
                         className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${
@@ -117,7 +118,7 @@ export const DisruptionList: React.FC<DisruptionListProps> = ({
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         <div>
-                          <span className="font-medium text-gray-700">Status:</span>
+                          <span className="font-medium text-gray-700">{TEXT_CONSTANTS[20]}</span>
                           <p className="text-gray-600 mt-1">{formatStatus(disruption.status)}</p>
                         </div>
                       </div>
@@ -130,7 +131,7 @@ export const DisruptionList: React.FC<DisruptionListProps> = ({
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
                         <span className="text-gray-600">
-                          Coordinates: {formatCoordinates(disruption.geography.coordinates)}
+                          {TEXT_CONSTANTS[21]} {formatCoordinates(disruption.geography.coordinates)}
                         </span>
                       </div>
                     )}

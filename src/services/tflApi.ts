@@ -1,4 +1,5 @@
 import type { Disruption } from '../types/disruption';
+import { TEXT_CONSTANTS } from '../constants/text';
 
 const TFL_API_BASE = 'https://api.tfl.gov.uk';
 
@@ -16,27 +17,27 @@ export class TflApiService {
       // Transform the TfL API response to our Disruption interface
       return data.map((item: any): Disruption => ({
         id: item.id || `disruption-${Math.random().toString(36).substr(2, 9)}`,
-        location: item.location || item.corridorIds?.[0] || item.description || 'Unknown location',
+        location: item.location || item.corridorIds?.[0] || item.description || TEXT_CONSTANTS[29],
         severity: this.normalizeSeverity(item.severityLevel || item.severity),
-        comments: item.description || item.summary || item.comments || 'No description available',
-        currentUpdate: item.currentUpdate || item.additionalInfo || 'No current update',
+        comments: item.description || item.summary || item.comments || TEXT_CONSTANTS[30],
+        currentUpdate: item.currentUpdate || item.additionalInfo || TEXT_CONSTANTS[31],
         status: this.normalizeStatus(item.status),
         geography: this.extractGeography(item)
       }));
     } catch (error) {
       console.error('Error fetching traffic disruptions:', error);
-      throw new Error('Failed to fetch traffic disruptions. Please try again later.');
+      throw new Error(TEXT_CONSTANTS[32]);
     }
   }
 
   private static normalizeSeverity(severity: any): 'Severe' | 'Moderate' | 'Minor' {
     if (typeof severity === 'string') {
       const lower = severity.toLowerCase();
-      if (lower.includes('severe') || lower.includes('major') || lower.includes('high')) return 'Severe';
-      if (lower.includes('moderate') || lower.includes('medium')) return 'Moderate';
-      if (lower.includes('minor') || lower.includes('low') || lower.includes('minimal')) return 'Minor';
+      if (lower.includes('severe') || lower.includes('major') || lower.includes('high')) return TEXT_CONSTANTS[7] as 'Severe';
+      if (lower.includes('moderate') || lower.includes('medium')) return TEXT_CONSTANTS[8] as 'Moderate';
+      if (lower.includes('minor') || lower.includes('low') || lower.includes('minimal')) return TEXT_CONSTANTS[9] as 'Minor';
     }
-    return 'Minor'; // Default fallback
+    return TEXT_CONSTANTS[9] as 'Minor'; // Default fallback
   }
 
   private static normalizeStatus(status: any): 'Active' | 'Inactive' {

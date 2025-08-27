@@ -6,6 +6,7 @@ import { LoadingSpinner, ErrorMessage } from './components/LoadingComponents';
 import { useDisruptions } from './hooks/useDisruptions';
 import type { Disruption } from './types/disruption';
 import logoTraffic from './assets/logo_traffic.svg';
+import { TEXT_CONSTANTS } from './constants/text';
 
 function App() {
   const { disruptions, loadingState, filters, updateFilters, refreshData, lastUpdated } = useDisruptions();
@@ -16,9 +17,9 @@ function App() {
   const disruptionCounts = useMemo(() => {
     const allDisruptions = disruptions;
     return {
-      severe: allDisruptions.filter(d => d.severity === 'Severe').length,
-      moderate: allDisruptions.filter(d => d.severity === 'Moderate').length,
-      minor: allDisruptions.filter(d => d.severity === 'Minor').length,
+      severe: allDisruptions.filter(d => d.severity === TEXT_CONSTANTS[7]).length,
+      moderate: allDisruptions.filter(d => d.severity === TEXT_CONSTANTS[8]).length,
+      minor: allDisruptions.filter(d => d.severity === TEXT_CONSTANTS[9]).length,
       total: allDisruptions.length
     };
   }, [disruptions]);
@@ -31,7 +32,7 @@ function App() {
     // Reset both filters and selected disruption
     setSelectedDisruption(null);
     updateFilters({
-      severities: new Set(['Severe', 'Moderate', 'Minor']),
+      severities: new Set([TEXT_CONSTANTS[7], TEXT_CONSTANTS[8], TEXT_CONSTANTS[9]]),
       searchQuery: ''
     });
   };
@@ -58,7 +59,7 @@ function App() {
               <button
                 onClick={toggleSidebar}
                 className="lg:hidden p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors"
-                aria-label="Toggle sidebar"
+                aria-label={TEXT_CONSTANTS[3]}
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -67,12 +68,12 @@ function App() {
               <div className="flex items-center space-x-3">
                 <img 
                   src={logoTraffic} 
-                  alt="London Traffic Live" 
+                  alt={TEXT_CONSTANTS[1]} 
                   className="w-8 h-8 sm:w-10 sm:h-10"
                 />
                 <div>
-                  <h1 className="text-xl sm:text-2xl font-bold">London Traffic Live</h1>
-                  <p className="text-blue-100 text-sm hidden sm:block">Real-time traffic disruptions across London</p>
+                  <h1 className="text-xl sm:text-2xl font-bold">{TEXT_CONSTANTS[1]}</h1>
+                  <p className="text-blue-100 text-sm hidden sm:block">{TEXT_CONSTANTS[2]}</p>
                 </div>
               </div>
             </div>
@@ -81,11 +82,11 @@ function App() {
               <div className="hidden sm:flex flex-col items-end text-blue-100 text-xs space-y-1">
                 <div className="flex items-center space-x-2">
                   <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                  <span>Auto-refresh: 30 min</span>
+                  <span>{TEXT_CONSTANTS[4]}</span>
                 </div>
                 {lastUpdated && (
                   <span className="opacity-75">
-                    Last updated: {lastUpdated.toLocaleTimeString()}
+                    {TEXT_CONSTANTS[5]} {lastUpdated.toLocaleTimeString()}
                   </span>
                 )}
               </div>
@@ -106,7 +107,7 @@ function App() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
                         d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                 </svg>
-                <span className="hidden sm:inline">Refresh</span>
+                <span className="hidden sm:inline">{TEXT_CONSTANTS[6]}</span>
               </button>
             </div>
           </div>
@@ -161,15 +162,15 @@ function App() {
               <div className="flex items-center space-x-4 text-sm">
                 <div className="flex items-center space-x-2">
                   <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                  <span className="font-medium">{disruptionCounts.severe} Severe</span>
+                  <span className="font-medium">{disruptionCounts.severe} {TEXT_CONSTANTS[7]}</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
-                  <span className="font-medium">{disruptionCounts.moderate} Moderate</span>
+                  <span className="font-medium">{disruptionCounts.moderate} {TEXT_CONSTANTS[8]}</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                  <span className="font-medium">{disruptionCounts.minor} Minor</span>
+                  <span className="font-medium">{disruptionCounts.minor} {TEXT_CONSTANTS[9]}</span>
                 </div>
               </div>
             </div>

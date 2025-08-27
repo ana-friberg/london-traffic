@@ -1,21 +1,23 @@
 // Shared utilities for disruption display
+import { TEXT_CONSTANTS } from '../constants/text';
+
 export const getSeverityConfig = (severity: string) => {
   switch (severity) {
-    case 'Severe':
+    case TEXT_CONSTANTS[7]: // 'Severe'
       return {
         bgColor: 'bg-red-100 hover:bg-red-200 border-red-200',
         textColor: 'text-red-800',
         badgeColor: 'bg-red-500',
         mapColor: '#dc2626'
       };
-    case 'Moderate':
+    case TEXT_CONSTANTS[8]: // 'Moderate'
       return {
         bgColor: 'bg-orange-100 hover:bg-orange-200 border-orange-200',
         textColor: 'text-orange-800',
         badgeColor: 'bg-orange-500',
-        mapColor: '#ea580c',
+        mapColor: '#ea580c'
       };
-    case 'Minor':
+    case TEXT_CONSTANTS[9]: // 'Minor'
       return {
         bgColor: 'bg-yellow-100 hover:bg-yellow-200 border-yellow-200',
         textColor: 'text-yellow-800',
@@ -36,9 +38,9 @@ export const getSeverityConfig = (severity: string) => {
 export const formatStatus = (status: string): string => {
   switch (status) {
     case 'Active':
-      return 'Currently Active';
+      return TEXT_CONSTANTS[33];
     case 'Inactive':
-      return 'Resolved';
+      return TEXT_CONSTANTS[34];
     default:
       return status;
   }

@@ -1,11 +1,12 @@
 import React from 'react';
+import { TEXT_CONSTANTS } from '../constants/text';
 
 interface LoadingSpinnerProps {
   message?: string;
 }
 
 export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ 
-  message = 'Loading traffic disruptions...' 
+  message = TEXT_CONSTANTS[22] 
 }) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
@@ -22,7 +23,7 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
         {/* Loading text */}
         <div className="space-y-2">
           <h3 className="text-lg font-semibold text-slate-900">
-            Getting Latest Traffic Data
+            {TEXT_CONSTANTS[23]}
           </h3>
           <p className="text-slate-600 text-sm">
             {message}
@@ -61,7 +62,7 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({ error, onRetry }) =>
         {/* Error content */}
         <div className="space-y-4 mb-6">
           <h3 className="text-xl font-semibold text-slate-900">
-            Oops! Something went wrong
+            {TEXT_CONSTANTS[24]}
           </h3>
           <div className="bg-red-50 border border-red-200 rounded-lg p-4">
             <p className="text-red-700 text-sm leading-relaxed">
@@ -69,7 +70,7 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({ error, onRetry }) =>
             </p>
           </div>
           <p className="text-slate-600 text-sm">
-            This might be a temporary issue. Please check your internet connection and try again.
+            {TEXT_CONSTANTS[25]}
           </p>
         </div>
 
@@ -86,7 +87,7 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({ error, onRetry }) =>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                 </svg>
-                <span>Try Again</span>
+                <span>{TEXT_CONSTANTS[26]}</span>
               </div>
             </button>
           )}
@@ -97,14 +98,14 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({ error, onRetry }) =>
                      rounded-xl transition-all duration-200
                      focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
           >
-            Refresh Page
+            {TEXT_CONSTANTS[27]}
           </button>
         </div>
 
         {/* Help text */}
         <div className="mt-6 pt-4 border-t border-slate-200">
           <p className="text-xs text-slate-500">
-            If the problem persists, please check the TfL API status or try again later.
+            {TEXT_CONSTANTS[28]}
           </p>
         </div>
       </div>

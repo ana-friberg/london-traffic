@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import type { Disruption, FilterState, LoadingState } from '../types/disruption';
 import { TflApiService } from '../services/tflApi';
+import { TEXT_CONSTANTS } from '../constants/text';
 
 export const useDisruptions = () => {
   const [disruptions, setDisruptions] = useState<Disruption[]>([]);
@@ -10,7 +11,7 @@ export const useDisruptions = () => {
     error: null
   });
   const [filters, setFilters] = useState<FilterState>({
-    severities: new Set(['Severe', 'Moderate', 'Minor']),
+    severities: new Set([TEXT_CONSTANTS[7], TEXT_CONSTANTS[8], TEXT_CONSTANTS[9]]),
     searchQuery: ''
   });
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
@@ -26,7 +27,7 @@ export const useDisruptions = () => {
         // Check for new severe disruptions on automatic updates
         if (!isInitialLoad.current && !isManualRefresh) {
           const newSevereDisruptions = data.filter(disruption => 
-            disruption.severity === 'Severe' && 
+            disruption.severity === TEXT_CONSTANTS[7] && 
             !disruptions.find(existing => existing.id === disruption.id)
           );
           
@@ -65,14 +66,10 @@ export const useDisruptions = () => {
         return false;
       }
 
-      // Filter by search query
+      // Filter by search query (location/road name only)
       if (filters.searchQuery) {
         const query = filters.searchQuery.toLowerCase();
-        return (
-          disruption.location.toLowerCase().includes(query) ||
-          disruption.comments.toLowerCase().includes(query) ||
-          disruption.currentUpdate.toLowerCase().includes(query)
-        );
+        return disruption.location.toLowerCase().includes(query);
       }
 
       return true;

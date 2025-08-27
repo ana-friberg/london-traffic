@@ -1,5 +1,6 @@
 import React from 'react';
 import type { FilterState } from '../types/disruption';
+import { TEXT_CONSTANTS } from '../constants/text';
 
 interface FilterPanelProps {
   filters: FilterState;
@@ -33,13 +34,9 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
     onFiltersChange({ searchQuery: event.target.value });
   };
 
-  const selectOnlySeverity = (severity: string) => {
-    onFiltersChange({ severities: new Set([severity]) });
-  };
-
   const severityData = [
     { 
-      key: 'Severe', 
+      key: TEXT_CONSTANTS[7], 
       count: disruptionCounts.severe, 
       color: 'bg-red-500', 
       bgColor: 'bg-red-50 border-red-200',
@@ -47,7 +44,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
       icon: '🚨'
     },
     { 
-      key: 'Moderate', 
+      key: TEXT_CONSTANTS[8], 
       count: disruptionCounts.moderate, 
       color: 'bg-orange-500', 
       bgColor: 'bg-orange-50 border-orange-200',
@@ -55,7 +52,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
       icon: '⚠️'
     },
     { 
-      key: 'Minor', 
+      key: TEXT_CONSTANTS[9], 
       count: disruptionCounts.minor, 
       color: 'bg-yellow-500', 
       bgColor: 'bg-yellow-50 border-yellow-200',
@@ -74,7 +71,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
             </svg>
           </div>
-          <h3 className="text-lg font-semibold text-slate-900">Filters</h3>
+          <h3 className="text-lg font-semibold text-slate-900">{TEXT_CONSTANTS[10]}</h3>
         </div>
         
         <button
@@ -83,14 +80,14 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
                    bg-white hover:bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200
                    transition-all duration-200 hover:shadow-sm"
         >
-          Clear All
+          {TEXT_CONSTANTS[11]}
         </button>
       </div>
 
       {/* Search Filter */}
       <div className="mb-6">
         <label htmlFor="search-input" className="block text-sm font-medium text-slate-700 mb-3">
-          Search Locations
+          {TEXT_CONSTANTS[12]}
         </label>
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -101,7 +98,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
           <input
             id="search-input"
             type="text"
-            placeholder="Search by road name, area, or description..."
+            placeholder={TEXT_CONSTANTS[13]}
             value={filters.searchQuery}
             onChange={handleSearchChange}
             className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl 
@@ -124,7 +121,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
 
       {/* Severity Filters */}
       <div className="mb-2">
-        <h4 className="text-sm font-medium text-slate-700 mb-4">Severity Levels</h4>
+        <h4 className="text-sm font-medium text-slate-700 mb-4">{TEXT_CONSTANTS[14]}</h4>
         <div className="space-y-3">
           {severityData.map(({ key, count, color, bgColor, textColor, icon }) => (
             <div
