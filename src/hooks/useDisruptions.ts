@@ -61,6 +61,13 @@ export const useDisruptions = () => {
   // Filter disruptions whenever filters or data changes
   useEffect(() => {
     let filtered = disruptions.filter(disruption => {
+      // Ensure all required fields are present and valid
+      if (!disruption.id || !disruption.location || !disruption.severity || 
+          !disruption.comments || !disruption.currentUpdate || !disruption.status ||
+          !disruption.geography?.coordinates || disruption.geography.coordinates.length !== 2) {
+        return false;
+      }
+
       // Filter by severity
       if (!filters.severities.has(disruption.severity)) {
         return false;
