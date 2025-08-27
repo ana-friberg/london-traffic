@@ -60,19 +60,49 @@
   }
 
   .leaflet-popup-content-wrapper {
-    @apply rounded-xl shadow-xl border-0;
     background: white;
     border-radius: 12px !important;
+    padding: 0 !important;
+    overflow: hidden;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border: none;
   }
 
   .leaflet-popup-content {
-    @apply text-sm;
     font-family: 'Inter', system-ui, sans-serif;
-    margin: 16px 20px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: auto !important;
+    font-size: 0.875rem;
   }
 
   .leaflet-popup-tip {
-    @apply shadow-lg;
+    background: white !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Enhanced popup styling */
+  .leaflet-popup {
+    margin-bottom: 20px;
+  }
+
+  .leaflet-popup-close-button {
+    color: white;
+    opacity: 0.7;
+    top: 8px !important;
+    right: 8px !important;
+    width: 24px !important;
+    height: 24px !important;
+    font-size: 18px !important;
+    line-height: 22px !important;
+    background: rgba(0, 0, 0, 0.2) !important;
+    border-radius: 50% !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .leaflet-popup-close-button:hover {
+    background: rgba(0, 0, 0, 0.4) !important;
+    opacity: 1;
   }
 
   /* Fix leaflet marker icon issues */
@@ -84,6 +114,31 @@
   .disruption-list-container {
     overflow-y: auto;
     max-height: calc(100vh - 300px);
+  }
+
+  /* Enhanced scrolling for expanded cards */
+  .disruption-scrollable {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+    min-height: 0; /* Important for flex containers */
+    scroll-behavior: smooth;
+  }
+
+  /* Ensure expanded cards can scroll properly */
+  .disruption-card-expanded {
+    min-height: fit-content;
+  }
+
+  /* Force proper height calculation for sidebar */
+  .sidebar-container {
+    height: calc(100vh - 4rem); /* Account for header */
+    max-height: calc(100vh - 4rem);
+  }
+
+  /* Ensure flex containers handle overflow properly */
+  .flex-1 {
+    min-height: 0;
   }
 
   /* Custom animations */

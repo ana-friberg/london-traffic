@@ -114,7 +114,7 @@ function App() {
           bg-white shadow-xl lg:shadow-none
           transition-transform duration-300 ease-in-out
           flex flex-col border-r border-slate-200
-          mt-16 lg:mt-0 h-full
+          mt-16 lg:mt-0 sidebar-container
         `}>
           {/* Mobile overlay */}
           {isSidebarOpen && (

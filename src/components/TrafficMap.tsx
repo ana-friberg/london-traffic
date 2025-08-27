@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { Icon } from 'leaflet';
 import type { LatLngExpression } from 'leaflet';
 import type { Disruption } from '../types/disruption';
+import { getSeverityConfig, formatStatus, formatCoordinates } from '../utils/disruptionUtils';
 import '../utils/leafletFix'; // Fix for Leaflet icons
 
 interface TrafficMapProps {
@@ -53,17 +54,10 @@ const MapController: React.FC<{
 
 // Custom marker icons for different severity levels
 const createIcon = (severity: string, isSelected: boolean = false) => {
-  const getColor = (sev: string) => {
-    switch (sev) {
-      case 'Severe': return '#dc2626';
-      case 'Moderate': return '#ea580c';
-      case 'Minor': return '#eab308';
-      default: return '#6b7280';
-    }
-  };
+  const severityConfig = getSeverityConfig(severity);
   
   // Use blue color when selected, otherwise use severity color
-  const color = isSelected ? '#3b82f6' : getColor(severity);
+  const color = isSelected ? '#3b82f6' : severityConfig.mapColor;
   const size = isSelected ? 28 : 25;
   
   return new Icon({
@@ -137,9 +131,9 @@ export const TrafficMap: React.FC<TrafficMapProps> = ({
               }}
             >
               <Popup>
-                <div className="min-w-[250px] p-2">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{disruption.location}</h3>
-                  <div className="mb-3">
+                <div className="min-w-[280px] p-4">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">{disruption.location}</h3>
+                  <div className="mb-4">
                     <span 
                       className={`inline-block px-3 py-1 rounded-full text-xs font-bold text-white ${
                         disruption.severity === 'Severe' ? 'bg-red-500' :
@@ -149,12 +143,33 @@ export const TrafficMap: React.FC<TrafficMapProps> = ({
                       {disruption.severity}
                     </span>
                   </div>
-                  <p className="text-sm text-gray-700 mb-2 leading-relaxed">{disruption.comments}</p>
-                  {disruption.currentUpdate && (
-                    <p className="text-sm text-gray-600">
-                      <span className="font-medium">Status:</span> {disruption.currentUpdate}
-                    </p>
-                  )}
+                  <p className="text-sm text-gray-700 mb-4 leading-relaxed">{disruption.comments}</p>
+                  
+                  <div className="space-y-3 border-t border-gray-100 pt-3">
+                    {disruption.currentUpdate && (
+                      <div className="flex items-center bg-blue-50 rounded-lg p-3">
+                        <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                          <svg className="w-3 h-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </div>
+                        <p className="text-sm text-blue-700">{formatStatus(disruption.status)}</p>
+                      </div>
+                    )}
+                    
+                    {disruption.geography?.coordinates && (
+                      <>
+                        <div className="border-t border-gray-200 my-3"></div>
+                        <div className="flex items-center text-xs text-gray-500 px-1">
+                          <svg className="w-3 h-3 mr-2 flex-shrink-0 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                          </svg>
+                          <span className="font-mono text-gray-500">{formatCoordinates(disruption.geography.coordinates)}</span>
+                        </div>
+                      </>
+                    )}
+                  </div>
                 </div>
               </Popup>
             </Marker>
