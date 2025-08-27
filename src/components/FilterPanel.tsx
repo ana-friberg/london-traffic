@@ -1,4 +1,3 @@
-import React from 'react';
 import type { FilterState } from '../types/disruption';
 import { TEXT_CONSTANTS } from '../constants/text';
 
@@ -14,12 +13,12 @@ interface FilterPanelProps {
   };
 }
 
-export const FilterPanel: React.FC<FilterPanelProps> = ({
+export const FilterPanel = ({
   filters,
   onFiltersChange,
   onClearAll,
   disruptionCounts
-}) => {
+}: FilterPanelProps) => {
   const handleSeverityChange = (severity: string, checked: boolean) => {
     const newSeverities = new Set(filters.severities);
     if (checked) {

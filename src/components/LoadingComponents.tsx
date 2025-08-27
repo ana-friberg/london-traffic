@@ -1,13 +1,27 @@
-import React from 'react';
 import { TEXT_CONSTANTS } from '../constants/text';
 
 interface LoadingSpinnerProps {
   message?: string;
 }
 
-export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ 
+/**
+ * LoadingSpinner Component
+ * 
+ * A full-screen loading indicator that displays while the application is initializing
+ * or performing asynchronous operations. Provides visual feedback to users during
+ * data loading or processing states.
+ * 
+ * Features:
+ * - Animated lightning bolt icon with pulsing effect
+ * - Customizable loading message
+ * - Bouncing dots animation for visual engagement
+ * - Gradient background for modern aesthetic
+ * - Centered card layout with shadow effects
+ */
+
+export const LoadingSpinner = ({ 
   message = TEXT_CONSTANTS[22] 
-}) => {
+}: LoadingSpinnerProps) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center">
@@ -46,7 +60,23 @@ interface ErrorMessageProps {
   onRetry?: () => void;
 }
 
-export const ErrorMessage: React.FC<ErrorMessageProps> = ({ error, onRetry }) => {
+/**
+ * ErrorMessage Component
+ * 
+ * A full-screen error display component that shows when the application encounters
+ * errors during data loading or API calls. Provides clear error information and
+ * recovery options for users.
+ * 
+ * Features:
+ * - Warning triangle icon to indicate error state
+ * - Detailed error message display in highlighted box
+ * - Optional retry button for recoverable errors
+ * - Page refresh button as fallback recovery option
+ * - Help text for additional user guidance
+ * - Accessible design with proper focus states
+ */
+
+export const ErrorMessage = ({ error, onRetry }: ErrorMessageProps) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-100 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center">

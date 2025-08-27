@@ -7,9 +7,9 @@ export const TEXT_CONSTANTS = {
   4: "Auto-refresh: 30 min",
   5: "Last updated:",
   6: "Refresh", 
-  7: "Severe",
+  7: "Serious",
   8: "Moderate",
-  9: "Minor",
+  9: "Minimal",
   
   // Filter Panel
   10: "Filters",

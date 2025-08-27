@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, type MouseEvent } from 'react';
 import type { Disruption } from '../types/disruption';
 import { getSeverityConfig, formatStatus, formatCoordinates } from '../utils/disruptionUtils';
 import { TEXT_CONSTANTS } from '../constants/text';
@@ -9,14 +9,14 @@ interface DisruptionListProps {
   selectedDisruption: Disruption | null;
 }
 
-export const DisruptionList: React.FC<DisruptionListProps> = ({
+export const DisruptionList = ({
   disruptions,
   onDisruptionSelect,
   selectedDisruption
-}) => {
+}: DisruptionListProps) => {
   const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set());
 
-  const toggleCardExpansion = (disruptionId: string, event: React.MouseEvent) => {
+  const toggleCardExpansion = (disruptionId: string, event: MouseEvent) => {
     event.stopPropagation(); // Prevent card selection when clicking expand button
     const newExpanded = new Set(expandedCards);
     if (newExpanded.has(disruptionId)) {
