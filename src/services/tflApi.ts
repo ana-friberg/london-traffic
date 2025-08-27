@@ -133,8 +133,8 @@ export class TflApiService {
       const data: unknown[] = await response.json();
 
       // Log the raw data received from TfL API for debugging
-      // console.log("Raw data received from TfL API:", data);
-      // console.log("Total items received:", data.length);
+      console.log("Raw data received from TfL API:", data);
+      console.log("Total items received:", data.length);
 
       // Step 4: Filter, transform, and sort the data by severity
       // Process the raw API data into clean, usable disruption objects

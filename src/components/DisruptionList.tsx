@@ -29,18 +29,9 @@ export const DisruptionList = ({
     setExpandedCards(newExpanded);
   };
 
-  // Enhanced disruption selection with alert
+  // Enhanced disruption selection
   const handleDisruptionSelect = (disruption: Disruption) => {
     onDisruptionSelect(disruption);
-    
-    // Show selection feedback alert
-    if (onShowAlert) {
-      onShowAlert(
-        'info', 
-        'Disruption Selected', 
-        `Viewing ${disruption.severity.toLowerCase()} disruption on ${disruption.location}`
-      );
-    }
   };
 
   if (disruptions.length === 0) {

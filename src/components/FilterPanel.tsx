@@ -61,19 +61,6 @@ export const FilterPanel = ({
       newSeverities.delete(severity);
     }
     onFiltersChange({ severities: newSeverities });
-
-    // Show alert about filter change
-    if (onShowAlert) {
-      const count = severity === TEXT_CONSTANTS[7] ? disruptionCounts.severe :
-                   severity === TEXT_CONSTANTS[8] ? disruptionCounts.moderate :
-                   disruptionCounts.minor;
-      
-      if (checked) {
-        onShowAlert('info', 'Filter Added', `Now showing ${severity.toLowerCase()} disruptions (${count} found)`);
-      } else {
-        onShowAlert('info', 'Filter Removed', `Hidden ${severity.toLowerCase()} disruptions`);
-      }
-    }
   };
 
   /**
